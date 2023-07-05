@@ -13,5 +13,5 @@
 /* Add custom jquery to the backend */
 if (TL_MODE == 'BE')
 {
-  $GLOBALS['TL_JAVASCRIPT']['smg']		= 'system/modules/modal_gallery/assets/js/modal_gallery_backend.js';
+    $GLOBALS['TL_JAVASCRIPT']['amp_photo_in_frame']    = 'system/modules/amp_photo_in_frame/assets/js/amp_photo_in_frame_backend.js';
 }
