@@ -1,3 +1,1 @@
-<script>
-  console.log("File loaded"):
-</script>
+console.log("Amp Photo-in-Frame: Backend JS loaded");
