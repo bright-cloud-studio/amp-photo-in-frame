@@ -13,7 +13,7 @@ var intervalId = window.setInterval(function(){
     
     
     // This is for the horizontal frame
-    var toAppend = document.getElementById("pal_Picture-in-Frame");
+    var toAppend = document.getElementById("pal_Photo-in-Frame");
     var img_name = document.querySelector('input[name="frame_image[0][src]"]').value;
     var src = "isotope/" + img_name.charAt(0) + "/" + img_name;
     
@@ -35,7 +35,7 @@ var intervalId = window.setInterval(function(){
     
     
     // This is for the vertical frame
-    var toAppend_vertical = document.getElementById("pal_Picture-in-Frame Vertical");
+    var toAppend_vertical = document.getElementById("pal_Photo-in-Frame - Vertical");
     var img_name_vertical = document.querySelector('input[name="frame_image_vertical[0][src]"]').value;
     var src_vertical = "isotope/" + img_name_vertical.charAt(0) + "/" + img_name_vertical;
     
