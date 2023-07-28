@@ -1,62 +1,60 @@
 document.addEventListener("DOMContentLoaded", function() {
-    //document.getElementById("ctrl_hotspot_links").innerHTML += 
-             // "<h3 id='update_helper'>Helper Image Goes Here</h3>";
-
 
 });
 
-var lastSrc ="";
 
+// keeps track of the last src we had
+var last_src ="";
+var last_src_vertical = "";
+
+// every second
 var intervalId = window.setInterval(function(){
     
-    var picture = document.getElementsByClassName("gimage");
+    
+    
+    // This is for the horizontal frame
     var toAppend = document.getElementById("pal_Picture-in-Frame");
-    
-    var hiddenField = document.getElementById("ctrl_slide_image_url");
-    
-    var title = picture[0].title;
-    var src = title.substr(0,title.indexOf(' ')); 
-    
+    var img_name = document.querySelector('input[name="frame_image[0][src]"]').value;
+    var src = "isotope/" + img_name.charAt(0) + "/" + img_name;
     
     // if we have hiddenField use that, if not do our original process
-    
-    if(lastSrc != hiddenField.value )
-    {
-        lastSrc = hiddenField.value;
-        var deleteOld = document.getElementById("modal_helper");
-        if(deleteOld != null)
-        deleteOld.remove();
-        toAppend.insertAdjacentHTML("afterend", "<div id='modal_helper' class='clr widget' style='padding-top:5px;'><h3>Modal Coordinate Helper</h3><img id='hotspot_image' src='" + hiddenField.value + "' width='600px'><br><p class='tl_help tl_tip'>Click on the image to get X/Y coordinates in percentages, use them below for where you'd like the modal link to show.</p><br><p><strong>Clicked Hotspot_X:</strong><span id='x'></span></p><p><strong>Clicked Hotspot_Y:</strong><span id='y'></span></p></div>");
+    if(src != '') {
+        if(last_src != src )
+        {
+            last_src = src;
+            var deleteOld = document.getElementById("frame_helper");
+            if(deleteOld != null)
+                deleteOld.remove();
+            toAppend.insertAdjacentHTML("afterend", "<div id='frame_helper' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper</h3><img id='frame_image' src='" + src + "' width='auto'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_hori'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_hori'></span></p></div>");
 
-        var myImg = document.getElementById("hotspot_image");
-        myImg.onmousedown = GetCoordinates;
-    }
-
-    else
-    {
-    
-        if(src != '') {
-            if(lastSrc != src )
-            {
-                lastSrc = src;
-                var deleteOld = document.getElementById("modal_helper");
-                if(deleteOld != null)
-                    deleteOld.remove();
-                toAppend.insertAdjacentHTML("afterend", "<div id='modal_helper' class='clr widget' style='padding-top:5px;'><h3>Modal Coordinate Helper</h3><img id='hotspot_image' src='" + src + "' width='600px'><br><p class='tl_help tl_tip'>Click on the image to get X/Y coordinates in percentages, use them below for where you'd like the modal link to show.</p><br><p><strong>Clicked Hotspot_X:</strong><span id='x'></span></p><p><strong>Clicked Hotspot_Y:</strong><span id='y'></span></p></div>");
-
-                var myImg = document.getElementById("hotspot_image");
-                myImg.onmousedown = GetCoordinates;
-
-                // add the image full address to the hidden field so we can access it every time
-                hiddenField.value = src;
-
-
-                //stop running once we have found our image
-                //clearInterval(intervalId) 
-            }
+            var myImg = document.getElementById("frame_image");
+            myImg.onmousedown = GetCoordinates;
         }
-        
     }
+    
+    
+    
+    // This is for the vertical frame
+    var toAppend_vertical = document.getElementById("pal_Picture-in-Frame Vertical");
+    var img_name_vertical = document.querySelector('input[name="frame_image_vertical[0][src]"]').value;
+    var src_vertical = "isotope/" + img_name_vertical.charAt(0) + "/" + img_name_vertical;
+    
+    // if we have hiddenField use that, if not do our original process
+    if(src_vertical != '') {
+        if(last_src_vertical != src_vertical )
+        {
+            last_src_vertical = src_vertical;
+            var deleteOld_vertical = document.getElementById("frame_helper_vertical");
+            if(deleteOld_vertical != null)
+                deleteOld_vertical.remove();
+            toAppend_vertical.insertAdjacentHTML("afterend", "<div id='frame_helper_vertical' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper - Vertical</h3><img id='frame_image_vertical' src='" + src_vertical + "' width='auto'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_vert'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_vert'></span></p></div>");
+
+            var myImg_vertical = document.getElementById("frame_image_vertical");
+            myImg_vertical.onmousedown = GetCoordinatesVertical;
+        }
+    }
+        
+
     
 }, 1000);
 
@@ -84,7 +82,7 @@ function GetCoordinates(e)
   var PosX = 0;
   var PosY = 0;
   var ImgPos;
-  var myImg = document.getElementById("hotspot_image");
+  var myImg = document.getElementById("frame_image");
   ImgPos = FindPosition(myImg);
   if (!e) var e = window.event;
   if (e.pageX || e.pageY)
@@ -101,7 +99,36 @@ function GetCoordinates(e)
     }
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
-    
-  document.getElementById("x").innerHTML = " " + Math.trunc((PosX / myImg.width) * 100);
-  document.getElementById("y").innerHTML = " " + Math.trunc((PosY / myImg.height) * 100);
+
+  document.getElementById("x_hori").innerHTML = " " + Math.trunc((PosX / myImg.width) * 100);
+  document.getElementById("y_hori").innerHTML = " " + Math.trunc((PosY / myImg.height) * 100);
+  
+}
+
+function GetCoordinatesVertical(e)
+{
+  var PosX = 0;
+  var PosY = 0;
+  var ImgPos;
+  var myImg = document.getElementById("frame_image_vertical");
+  ImgPos = FindPosition(myImg);
+  if (!e) var e = window.event;
+  if (e.pageX || e.pageY)
+  {
+    PosX = e.pageX;
+    PosY = e.pageY;
+  }
+  else if (e.clientX || e.clientY)
+    {
+      PosX = e.clientX + document.body.scrollLeft
+        + document.documentElement.scrollLeft;
+      PosY = e.clientY + document.body.scrollTop
+        + document.documentElement.scrollTop;
+    }
+  PosX = PosX - ImgPos[0];
+  PosY = PosY - ImgPos[1];
+
+  document.getElementById("x_vert").innerHTML = " " + Math.trunc((PosX / myImg.width) * 100);
+  document.getElementById("y_vert").innerHTML = " " + Math.trunc((PosY / myImg.height) * 100);
+  
 }
