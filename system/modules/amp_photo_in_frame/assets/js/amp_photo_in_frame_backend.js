@@ -59,7 +59,7 @@ var intervalId = window.setInterval(function(){
 }, 1000);
 
 
-
+// Pass in an element then click it to get back your coordinate in percentages between 1-100
 function FindPosition(oElement)
 {
   if(typeof( oElement.offsetParent ) != "undefined")
@@ -77,6 +77,7 @@ function FindPosition(oElement)
     }
 }
 
+// Get coordinates for our normal, horizontal frame
 function GetCoordinates(e)
 {
   var PosX = 0;
@@ -105,6 +106,7 @@ function GetCoordinates(e)
   
 }
 
+// Get coordinates for our vertical frame
 function GetCoordinatesVertical(e)
 {
   var PosX = 0;
