@@ -25,10 +25,11 @@ var intervalId = window.setInterval(function(){
             var deleteOld = document.getElementById("frame_helper");
             if(deleteOld != null)
                 deleteOld.remove();
-            toAppend.insertAdjacentHTML("afterend", "<div id='frame_helper' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper</h3><img id='frame_image' src='" + src + "' width='auto'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_hori'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_hori'></span></p></div>");
+            toAppend.insertAdjacentHTML("afterend", "<div id='mouse_coords' style='display:none; position:absolute; padding:5px; font-weight:900; background-color:red;color:white; z-index:1000;'><span id='mouse_x'>X</span>, <span id='mouse_y'>Y</span></div><div id='frame_helper' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper</h3><img id='frame_image' src='" + src + "' style='width: inherit;'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_hori'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_hori'></span></p></div>");
 
             var myImg = document.getElementById("frame_image");
             myImg.onmousedown = GetCoordinates;
+            myImg.onmousemove = GetMousePOS;
         }
     }
     
@@ -47,10 +48,11 @@ var intervalId = window.setInterval(function(){
             var deleteOld_vertical = document.getElementById("frame_helper_vertical");
             if(deleteOld_vertical != null)
                 deleteOld_vertical.remove();
-            toAppend_vertical.insertAdjacentHTML("afterend", "<div id='frame_helper_vertical' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper - Vertical</h3><img id='frame_image_vertical' src='" + src_vertical + "' width='auto'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_vert'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_vert'></span></p></div>");
+            toAppend_vertical.insertAdjacentHTML("afterend", "<div id='mouse_coords_vert' style='display:none; position:absolute; padding:5px; font-weight:900; background-color:red;color:white; z-index:1000;'><span id='mouse_x_vert'>X</span>, <span id='mouse_y_vert'>Y</span></div><div id='frame_helper_vertical' class='clr widget' style='padding-top:5px;'><h3>Frame Coordinate Helper - Vertical</h3><img id='frame_image_vertical' src='" + src_vertical + "' style='width: inherit;'><br><p class='tl_help tl_tip'>Click on the Frame Coordinate Helper to get your Clicked Coordinates. Fill them in above for the Frame Top/Left and Frame Bottom/Right.</p><br><p><strong>Clicked Coordinate X:</strong><span id='x_vert'></span></p><p><strong>Clicked Coordinate Y:</strong><span id='y_vert'></span></p></div>");
 
             var myImg_vertical = document.getElementById("frame_image_vertical");
             myImg_vertical.onmousedown = GetCoordinatesVertical;
+            myImg_vertical.onmousemove = GetMousePOSVertical;
         }
     }
         
@@ -101,8 +103,8 @@ function GetCoordinates(e)
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
 
-  document.getElementById("x_hori").innerHTML = " " + Math.trunc((PosX / myImg.width) * 100);
-  document.getElementById("y_hori").innerHTML = " " + Math.trunc((PosY / myImg.height) * 100);
+  document.getElementById("x_hori").innerHTML = " " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("y_hori").innerHTML = " " + ((PosY / myImg.height) * 100).toFixed(2);
   
 }
 
@@ -130,7 +132,67 @@ function GetCoordinatesVertical(e)
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
 
-  document.getElementById("x_vert").innerHTML = " " + Math.trunc((PosX / myImg.width) * 100);
-  document.getElementById("y_vert").innerHTML = " " + Math.trunc((PosY / myImg.height) * 100);
+  document.getElementById("x_vert").innerHTML = " " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("y_vert").innerHTML = " " + ((PosY / myImg.height) * 100).toFixed(2);
   
+}
+
+
+function GetMousePOS(e) {
+  var PosX = 0;
+  var PosY = 0;
+  var ImgPos;
+  var myImg = document.getElementById("frame_image");
+  ImgPos = FindPosition(myImg);
+  if (!e) var e = window.event;
+  if (e.pageX || e.pageY)
+  {
+    PosX = e.pageX;
+    PosY = e.pageY;
+  }
+  else if (e.clientX || e.clientY)
+    {
+      PosX = e.clientX + document.body.scrollLeft
+        + document.documentElement.scrollLeft;
+      PosY = e.clientY + document.body.scrollTop
+        + document.documentElement.scrollTop;
+    }
+  PosX = PosX - ImgPos[0];
+  PosY = PosY - ImgPos[1];
+
+  document.getElementById("mouse_x").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("mouse_y").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  
+  document.getElementById("mouse_coords").style.display = "initial";
+  document.getElementById("mouse_coords").style.top = e.pageY + "px";
+  document.getElementById("mouse_coords").style.left = (e.pageX+15) + "px";
+}
+function GetMousePOSVertical(e) {
+  var PosX = 0;
+  var PosY = 0;
+  var ImgPos;
+  var myImg = document.getElementById("frame_image_vertical");
+  ImgPos = FindPosition(myImg);
+  if (!e) var e = window.event;
+  if (e.pageX || e.pageY)
+  {
+    PosX = e.pageX;
+    PosY = e.pageY;
+  }
+  else if (e.clientX || e.clientY)
+    {
+      PosX = e.clientX + document.body.scrollLeft
+        + document.documentElement.scrollLeft;
+      PosY = e.clientY + document.body.scrollTop
+        + document.documentElement.scrollTop;
+    }
+  PosX = PosX - ImgPos[0];
+  PosY = PosY - ImgPos[1];
+
+  document.getElementById("mouse_x_vert").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("mouse_y_vert").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  
+  document.getElementById("mouse_coords_vert").style.display = "initial";
+  document.getElementById("mouse_coords_vert").style.top = e.pageY + "px";
+  document.getElementById("mouse_coords_vert").style.left = (e.pageX+15) + "px";
 }
