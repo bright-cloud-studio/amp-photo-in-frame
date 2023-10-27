@@ -106,6 +106,13 @@ function GetCoordinates(e)
   document.getElementById("x_hori").innerHTML = " " + ((PosX / myImg.width) * 100).toFixed(2);
   document.getElementById("y_hori").innerHTML = " " + ((PosY / myImg.height) * 100).toFixed(2);
   
+  document.getElementById("mouse_x").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("mouse_y").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  
+  document.getElementById("mouse_coords").style.display = "initial";
+  document.getElementById("mouse_coords").style.top = e.pageY + "px";
+  document.getElementById("mouse_coords").style.left = (e.pageX) + "px";
+  
 }
 
 // Get coordinates for our vertical frame
@@ -135,6 +142,13 @@ function GetCoordinatesVertical(e)
   document.getElementById("x_vert").innerHTML = " " + ((PosX / myImg.width) * 100).toFixed(2);
   document.getElementById("y_vert").innerHTML = " " + ((PosY / myImg.height) * 100).toFixed(2);
   
+  document.getElementById("mouse_x_vert").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  document.getElementById("mouse_y_vert").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  
+  document.getElementById("mouse_coords_vert").style.display = "initial";
+  document.getElementById("mouse_coords_vert").style.top = e.pageY + "px";
+  document.getElementById("mouse_coords_vert").style.left = (e.pageX) + "px";
+  
 }
 
 
@@ -160,12 +174,12 @@ function GetMousePOS(e) {
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
 
-  document.getElementById("mouse_x").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
-  document.getElementById("mouse_y").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  //document.getElementById("mouse_x").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  //document.getElementById("mouse_y").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
   
-  document.getElementById("mouse_coords").style.display = "initial";
-  document.getElementById("mouse_coords").style.top = e.pageY + "px";
-  document.getElementById("mouse_coords").style.left = (e.pageX+15) + "px";
+  //document.getElementById("mouse_coords").style.display = "initial";
+  //document.getElementById("mouse_coords").style.top = e.pageY + "px";
+  //document.getElementById("mouse_coords").style.left = (e.pageX+15) + "px";
 }
 function GetMousePOSVertical(e) {
   var PosX = 0;
@@ -189,10 +203,10 @@ function GetMousePOSVertical(e) {
   PosX = PosX - ImgPos[0];
   PosY = PosY - ImgPos[1];
 
-  document.getElementById("mouse_x_vert").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
-  document.getElementById("mouse_y_vert").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
+  //document.getElementById("mouse_x_vert").innerHTML = "X: " + ((PosX / myImg.width) * 100).toFixed(2);
+  //document.getElementById("mouse_y_vert").innerHTML = "Y: " + ((PosY / myImg.height) * 100).toFixed(2);
   
-  document.getElementById("mouse_coords_vert").style.display = "initial";
-  document.getElementById("mouse_coords_vert").style.top = e.pageY + "px";
-  document.getElementById("mouse_coords_vert").style.left = (e.pageX+15) + "px";
+  //document.getElementById("mouse_coords_vert").style.display = "initial";
+  //document.getElementById("mouse_coords_vert").style.top = e.pageY + "px";
+  //document.getElementById("mouse_coords_vert").style.left = (e.pageX+15) + "px";
 }
